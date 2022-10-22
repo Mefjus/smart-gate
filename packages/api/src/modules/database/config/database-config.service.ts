@@ -12,7 +12,7 @@ export interface DatabaseConfig {
   logging?: boolean;
   ssl?: {
     rejectUnauthorized: boolean;
-  };
+  } | boolean;
 }
 
 @Injectable()
@@ -40,9 +40,7 @@ export class DatabaseConfigService {
       return {
         ...baseConfig,
         database: this.config.database.database,
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        ssl: false,
       };
     }
 
