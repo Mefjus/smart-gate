@@ -5,7 +5,6 @@ import { ConnectionState } from '../../../enums/connectionState.enum';
 import { DeviceStatus } from '../../../enums/deviceStatus.enum';
 import { WebSocketEvent } from '../../../enums/webSocketEvent.enum';
 import { useAuth } from '../../../hooks';
-import { getBaseURL } from '../AxiosProvider';
 import { WebSocketContext } from './WebSocketProvider.context';
 import { WebSocketProviderProps } from './WebSocketProvider.types';
 
@@ -27,7 +26,7 @@ const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
     const ticket = await generateTicket();
 
     setConnectionState(ConnectionState.CONNECTING);
-    const apiSocket = socketIOClient(getBaseURL(), {
+    const apiSocket = socketIOClient(process.env.REACT_APP_API_URL ?? "", {
       auth: {
         ticket,
       },
