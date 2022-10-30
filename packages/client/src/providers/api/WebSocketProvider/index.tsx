@@ -5,9 +5,9 @@ import { ConnectionState } from '../../../enums/connectionState.enum';
 import { DeviceStatus } from '../../../enums/deviceStatus.enum';
 import { WebSocketEvent } from '../../../enums/webSocketEvent.enum';
 import { useAuth } from '../../../hooks';
+import { getBaseURL } from '../AxiosProvider';
 import { WebSocketContext } from './WebSocketProvider.context';
 import { WebSocketProviderProps } from './WebSocketProvider.types';
-import {getBaseURL} from "../AxiosProvider";
 
 const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
   const [socket, setSocket] = useState<Socket>();
