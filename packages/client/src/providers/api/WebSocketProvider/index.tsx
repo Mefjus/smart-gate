@@ -27,6 +27,7 @@ const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
 
     setConnectionState(ConnectionState.CONNECTING);
     const apiSocket = socketIOClient(process.env.REACT_APP_API_URL ?? '', {
+      path: process.env.REACT_APP_SOCKET_PATH,
       auth: {
         ticket,
       },
