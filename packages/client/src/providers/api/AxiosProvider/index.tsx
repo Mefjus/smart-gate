@@ -6,7 +6,7 @@ import { useCurrentUser } from '../../../hooks';
 import { AxiosContext } from './AxiosProvider.context';
 import { AxiosProviderProps } from './AxiosProvider.types';
 
-const getBaseURL = (): string => {
+export const getBaseURL = (): string => {
   const { REACT_APP_API_URL, NODE_ENV, REACT_APP_FORCE_API_URL } = process.env;
 
   if (NODE_ENV === environments.DEV || REACT_APP_FORCE_API_URL === 'true') {
