@@ -20,7 +20,6 @@ services:
       - smartgate-db:/var/lib/postgresql/data
   frontend:
     restart: always
-    image: 'smartgate/webapp'
     container_name: smartgate-webapp
     build:
       dockerfile: './Dockerfile-www'
@@ -32,7 +31,6 @@ services:
       - 8080:80
   api:
     restart: always
-    image: 'smartgate/api'
     container_name: smartgate-api
     build:
       dockerfile: './Dockerfile-api'

@@ -1,4 +1,4 @@
-FROM node:16-alpine AS deps
+FROM node:16 AS deps
 
 ENV NODE_ENV=production
 ENV PORT=3030
@@ -21,7 +21,7 @@ COPY yarn.lock ./yarn.lock
 COPY packages/api/package.json ./packages/api/package.json
 COPY packages/api/yarn.lock ./packages/api/yarn.lock
 
-RUN yarn --cwd ./packages/api install
+RUN yarn install
 
 COPY . .
 
