@@ -4,7 +4,7 @@ ENV DISABLE_ESLINT_PLUGIN=true
 ENV SKIP_PREFLIGHT_CHECK=true
 ENV TSC_COMPILE_ON_ERROR=true
 ENV REACT_APP_SOCKET_PATH=/api
-ENV REACT_APP_FORCE_API_URL=false
+ENV REACT_APP_FORCE_API_URL=true
 
 WORKDIR .
 
@@ -13,7 +13,7 @@ COPY yarn.lock ./yarn.lock
 COPY packages/client/package.json ./packages/client/package.json
 COPY packages/client/yarn.lock ./packages/client/yarn.lock
 
-RUN yarn --cwd ./packages/client install
+RUN yarn install
 
 COPY . .
 
