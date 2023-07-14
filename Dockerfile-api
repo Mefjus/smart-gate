@@ -1,0 +1,31 @@
+FROM node:16-alpine AS deps
+
+ENV NODE_ENV=production
+ENV PORT=3030
+ENV INVITATION_EXPIRATION_DATE=10d
+ENV PASSWORD_RESET_TIME=600
+ENV RATE_LIMIT_MAX_CONCURRENT=100
+ENV RATE_LIMIT_MIN_TIME=60
+ENV REFRESH_EXPIRATION_TIME_WITH_KEEP_ME_LOGGED_IN=1000d
+ENV REPLY_TO=mail.smart.gate@gmail.com
+ENV SENDER='Smart Gate'
+ENV SENTRY_DEBUG=false
+ENV SENTRY_DSN=''
+ENV SENTRY_ENABLED=false
+ENV SENTRY_ENVIRONMENT=production
+
+WORKDIR .
+
+COPY package.json ./package.json
+COPY yarn.lock ./yarn.lock
+COPY packages/api/package.json ./packages/api/package.json
+COPY packages/api/yarn.lock ./packages/api/yarn.lock
+
+RUN yarn --cwd ./packages/api install
+
+COPY . .
+
+RUN yarn --cwd ./packages/api build
+
+CMD ["yarn", "--cwd", "./packages/api", "start:prod"]
+

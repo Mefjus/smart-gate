@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:13.8
+    container_name: db
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    networks:
+      - smartgate-backend
+  frontend:
+    restart: always
+    image: 'smartgate/webapp'
+    container_name: webapp
+    build:
+      dockerfile: './Dockerfile-www'
+    environment:
+      REACT_APP_API_URL: ${REACT_APP_API_URL}
+    networks:
+      - smartgate-front
+    ports:
+      - 8080:80
+  api:
+    restart: always
+    image: 'smartgate/api'
+    container_name: api
+    build:
+      dockerfile: './Dockerfile-api'
+    environment:
+      ACCESS_SECRET: ${ACCESS_SECRET}
+      CLIENT_URL: ${CLIENT_URL}
+      COOKIE_SECRET: ${COOKIE_SECRET}
+      DEVICE_TICKET: ${DEVICE_TICKET}
+      LOGOUT_SECRET: ${LOGOUT_SECRET}
+      REFRESH_SECRET: ${REFRESH_SECRET}
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      SUPER_ADMIN_EMAILS: ${SUPER_ADMIN_EMAILS}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_HOST: db
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: 5432
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - smartgate-backend
+    ports:
+      - 8081:3030
+networks:
+  smartgate-backend:
+  smartgate-front:
